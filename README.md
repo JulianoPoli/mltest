@@ -19,7 +19,7 @@ A API recebe as informações enviadas pelo Agent e as grava em um banco de dado
 
 ## Requisitos
 
-Requisitos minemos para execução das respectivas aplicações:
+Requisitos minimos para execução das respectivas aplicações:
 
 Agent:
 ```bash
