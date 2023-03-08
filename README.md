@@ -54,3 +54,9 @@ Se precisar reconstruir o banco de dados da API você pode executar:
 $ cd api_server
 $ python3 create_schema.py
 ```
+
+Se precisar visualizar os dados do DB:
+```bash
+$ cd api_server
+$ python3 read.py
+```
