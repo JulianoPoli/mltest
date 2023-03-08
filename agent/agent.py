@@ -4,7 +4,7 @@ import platform, psutil, os
 import requests
 import time
 
-api_url = 'http://127.0.0.1:1234'
+api_url = 'http://127.0.0.1:1235'
 
 # Valida se a api está online e envia os dados
 def send_data_to_api(json_data):
@@ -44,19 +44,19 @@ class sys_info_get():
         return platform.release()
     
     def system_users(self):
-        users = []
+        users = ''
         for user in psutil.users():
-            users.append(user.name)
+            users = users + f"{user.name}"
         return users
     
     def os_ps(self):
-        all_ps = []
+        all_ps = ''
         c=0
         for process in psutil.process_iter ():
             Name = process.name ()
             ID = process.pid
             c=c+1
-            all_ps.append(f'{ID} - {Name}') 
+            all_ps = all_ps + f'{ID} - {Name} |'
         return all_ps
 
     def sys_cpu(self):
