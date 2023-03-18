@@ -1,2 +1,3 @@
 Flask==2.2.3
+jsonschema==4.17.3
 pandas==1.5.3

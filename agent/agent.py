@@ -27,8 +27,8 @@ def json_builder(os_name, os_version, system_users, os_ps, sys_cpu, cpu_status, 
     {
         "os_name":os_name,
         "os_version":os_version,
-        "system_users":system_users,
-        "os_ps":os_ps,
+        "system_users":f"{system_users}",
+        "os_ps":f"{os_ps}",
         "sys_cpu":sys_cpu,
         "cpu_status":cpu_status,
         "sys_ram":sys_ram
@@ -44,19 +44,17 @@ class sys_info_get():
         return platform.release()
     
     def system_users(self):
-        users = ''
+        users = []
         for user in psutil.users():
-            users = users + f"{user.name}"
+            users.append(f"{user.name}")
         return users
-    
+
     def os_ps(self):
-        all_ps = ''
-        c=0
+        all_ps = []
         for process in psutil.process_iter ():
-            Name = process.name ()
+            Name = process.name()
             ID = process.pid
-            c=c+1
-            all_ps = all_ps + f'{ID} - {Name} |'
+            all_ps.append(f'{ID} - {Name}')
         return all_ps
 
     def sys_cpu(self):
