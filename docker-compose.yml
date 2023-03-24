@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  app:
+    container_name: api_server
+    build: 
+      context: ./api_server
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - "1235:1235"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: apidb
+    restart: always
+    networks:
+      - local_network
+  mysql:
+    image: mysql
+    container_name: api_mysql_database
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: apidb
+      MYSQL_USER:  api
+      MYSQL_PASSWORD: api
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./api_server/init.sql:/docker-entrypoint-initdb.d/init.sql
+    cap_add:
+      - SYS_NICE #Supress not useful error messages
+    restart: always
+    networks:
+      - local_network
+      
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  local_network:
+    driver: bridge

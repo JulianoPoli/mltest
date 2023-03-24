@@ -1,10 +1,27 @@
-from flask import Flask,jsonify,request
-import sqlite3
+import os
+import mysql.connector
 import pandas as pd
+from flask import Flask, jsonify, request
 from jsonschema import validate
+from mysql.connector import Error
+from sqlalchemy import create_engine
 
-db = sqlite3.connect('prod.db', check_same_thread=False)
-app =   Flask(__name__)
+def get_mysql_sqlachemy_engine():
+    try:   
+        db_host = os.environ.get('DB_HOST')
+        db_user = os.environ.get('DB_USER')
+        db_password = os.environ.get('DB_PASSWORD')
+        db_port = os.environ.get('DB_PORT')
+        database = os.environ.get('DB_NAME')
+
+        sqlEngine = create_engine(f'mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{database}', pool_recycle=3600)
+        return sqlEngine
+    
+    except Error as e:
+        print("Error while connecting to MySQL", e)
+
+db_engine = get_mysql_sqlachemy_engine()
+app = Flask(__name__)
 
 #Define o formato de JSON aceito pela API
 schema = {
@@ -27,10 +44,11 @@ def information():
     try:
         validate(instance=request_data[0], schema=schema)
         mont_data = pd.DataFrame(request_data)
-        mont_data.to_sql(name = 'logs', con = db, if_exists = 'append', index = False)
+        mont_data.to_sql(name = 'logs', con = db_engine, if_exists = 'append', index = False)
         print(request_data[0])
         return "OK", 200
-    except:
+    except Exception as e:
+        print(e)
         return "Json Payload Error", 400
     
 
@@ -39,4 +57,4 @@ def status():
     return "Ok"
     
 if __name__=='__main__':
-    app.run(debug=False, port=1235, host="127.0.0.1")
+    app.run(debug=False, port=1235, host="0.0.0.0")

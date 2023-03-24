@@ -66,7 +66,7 @@ class sys_info_get():
         return cpu_usage
 
     def sys_ram(self):
-        memory_info = f'{(round(psutil.virtual_memory().free / (1024.0 **2)))}GB of {(round(psutil.virtual_memory().total / (1024.0 **2)))}GB'
+        memory_info = f'{(round(psutil.virtual_memory().free / (1024.0 **2)))} of {(round(psutil.virtual_memory().total / (1024.0 **2)))}'
         return memory_info
 
 SystemInfo = sys_info_get()
@@ -75,4 +75,3 @@ while True:
     json_data = (json_builder(SystemInfo.os_name(), SystemInfo.os_version(), SystemInfo.system_users(), SystemInfo.os_ps(), SystemInfo.sys_cpu(), SystemInfo.cpu_status(), SystemInfo.sys_ram()))
     send_data_to_api(json_data)
     time.sleep(5)
-

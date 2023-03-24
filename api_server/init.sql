@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS logs (os_name text,os_version text, system_users text, os_ps text, sys_cpu text, cpu_status text, sys_ram text);

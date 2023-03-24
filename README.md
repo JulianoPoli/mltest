@@ -12,7 +12,7 @@ Informações capturadas pelo script:
 - Versão do sistema operacional.
 - Informações sobre o uso de RAM. 
 
-A API recebe as informações enviadas pelo Agent e as grava em um banco de dados SQLite
+A API recebe as informações enviadas pelo Agent e as grava em um banco de dados MySQL
 
 
 
@@ -45,18 +45,6 @@ $ python3 agent.py
 
 Api Server:
 ```bash
-$ cd api_server
-$ python3 api_server.py
-```
-
-Se precisar reconstruir o banco de dados da API você pode executar:
-```bash
-$ cd api_server
-$ python3 create_schema.py
-```
-
-Se precisar visualizar os dados do DB:
-```bash
-$ cd api_server
-$ python3 read.py
+$ docker-compose build
+$ docker-compose up
 ```
